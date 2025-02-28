@@ -1,9 +1,11 @@
 package com.embarkx.firstjobapp.job;
 
+import com.embarkx.firstjobapp.company.Company;
+import com.embarkx.firstjobapp.company.CompanyService;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "job_table")
+//@Table(name = "job_table")
 public class Job {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)  // this is to auto increment the id. JPA now manages the id.
@@ -13,6 +15,10 @@ public class Job {
     private String minSalary;
     private String maxSalary;
     private String location;
+
+//    many jobs can belong to one company
+    @ManyToOne
+    private Company company;
 
     public Job(String title, String description, String minSalary, String maxSalary, String location, Long id) {
         this.title = title;
@@ -74,5 +80,13 @@ public class Job {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public Company getCompany() {
+        return company;
+    }
+
+    public void setCompany(Company company) {
+        this.company = company;
     }
 }

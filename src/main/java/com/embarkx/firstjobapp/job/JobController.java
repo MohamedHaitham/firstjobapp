@@ -22,9 +22,9 @@ public class JobController {
     }
 
     @PostMapping
-    public ResponseEntity createJob(@RequestBody Job job){
+    public ResponseEntity<String> createJob(@RequestBody Job job){
         jobService.createJob(job);
-        return new ResponseEntity("Job added Successfully!", HttpStatus.CREATED); // having control over the response status
+        return new ResponseEntity<>("Job added Successfully!", HttpStatus.CREATED); // having control over the response status
     }
 
 

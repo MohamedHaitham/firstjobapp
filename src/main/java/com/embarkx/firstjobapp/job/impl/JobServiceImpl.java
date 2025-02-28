@@ -4,6 +4,7 @@ import com.embarkx.firstjobapp.job.Job;
 import com.embarkx.firstjobapp.job.JobRepository;
 import com.embarkx.firstjobapp.job.JobService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,8 +14,7 @@ import java.util.Optional;
 @Service
 public class JobServiceImpl implements JobService {
 //    private List<Job> jobs = new ArrayList<>();
-    JobRepository jobRepository;
-    private Long nextId = 1L;
+    JobRepository jobRepository;    // instead of using a list, we are using a repository to store the jobs
 
     // since jobRepository is a bean that is managed by springboot, so this constructor can autowire it in the constructor
     public JobServiceImpl(JobRepository jobRepository) {
@@ -26,10 +26,9 @@ public class JobServiceImpl implements JobService {
     public List<Job> findAll() {
         return jobRepository.findAll();
     }
-
     @Override
+
     public void createJob(Job job) {
-        job.setId(nextId++);
         jobRepository.save(job);
     }
 
@@ -59,6 +58,7 @@ public class JobServiceImpl implements JobService {
                 job.setMinSalary(updatedjob.getMinSalary());
                 job.setMaxSalary(updatedjob.getMaxSalary());
                 job.setLocation(updatedjob.getLocation());
+                jobRepository.save(job);
                 return true;
             }
         return false;
